@@ -1,9 +1,9 @@
 import subprocess
-from test_class import Test
-from find_file import find_first_file
-from highlight_diff import highlight_diff
-from normalize_output import normalize_output
-from get_score import get_score_emoji
+from py_output_compare.test_class import Test
+from py_output_compare.find_file import find_first_file
+from py_output_compare.highlight import highlight_diff
+from py_output_compare.normalize_file_output import normalize_output
+from py_output_compare.get_score import get_score_emoji
 
 
 def get_run_output(filename, input_data, timeout_setting=6):
