@@ -1,4 +1,4 @@
-from py_output_compare.normalize_file_output import normalize_output_no_lower
+from normalize_file_output import normalize_output_no_lower
 
 
 def highlight_diff(expect_input, got_input):

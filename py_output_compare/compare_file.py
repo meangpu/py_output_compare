@@ -1,9 +1,9 @@
 import subprocess
-from py_output_compare.user_input_case import InputCase
-from py_output_compare.find_file import find_first_file
-from py_output_compare.highlight import highlight_diff
-from py_output_compare.normalize_file_output import normalize_output
-from py_output_compare.get_score import get_score_emoji
+from user_input_case import InputCase
+from find_file import find_first_file
+from highlight import highlight_diff
+from normalize_file_output import normalize_output
+from get_score import get_score_emoji
 
 
 def get_run_output(filename, input_data, timeout_setting=6):
@@ -37,14 +37,17 @@ def get_run_output(filename, input_data, timeout_setting=6):
 
 
 def get_compare_output(
-    student, teacher_file, user_input_list, do_normalize_output=False
+    student,
+    teacher_file,
+    user_input_list=[InputCase("")],
+    do_normalize_output=False,
 ):
     result = []
     score = 0
     result.append("=" * 80)
     for user_input in user_input_list:
-        teacher_output = get_run_output(teacher_file, user_input.case_input).strip()
-        student_output = get_run_output(student, user_input.case_input).strip()
+        teacher_output = get_run_output(teacher_file, user_input.case_input)
+        student_output = get_run_output(student, user_input.case_input)
 
         if do_normalize_output:
             teacher_output = normalize_output(teacher_output)
@@ -85,8 +88,11 @@ def main():
 
     fail_student = get_compare_output(student_file, teacher_file, test_cases)
     pass_student = get_compare_output(student_file_good, teacher_file, test_cases)
+    no_test_input = get_compare_output(student_file_good, teacher_file)
+
     print(fail_student)
     print(pass_student)
+    print(no_test_input)
 
 
 if __name__ == "__main__":
