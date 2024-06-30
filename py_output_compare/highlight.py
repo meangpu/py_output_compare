@@ -46,11 +46,3 @@ def highlight_diff(expect_input, got_input):
     final_word.append("~" * 80)
     final_output = "\n".join(final_word)
     return final_output
-
-
-def main():
-    print(highlight_diff("a" "asdfasdf", "adsfasdf"))
-
-
-if __name__ == "__main__":
-    main()
