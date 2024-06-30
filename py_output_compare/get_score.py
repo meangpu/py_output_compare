@@ -12,3 +12,11 @@ def get_score_emoji(score, max_score):
 
     final_score = "".join(result)
     return final_score
+
+
+def main():
+    print(get_score_emoji(5, 10))
+
+
+if __name__ == "__main__":
+    main()

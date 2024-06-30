@@ -45,3 +45,11 @@ def get_run_output_by_path(file_path, input_data, timeout_setting=6):
     except Exception as e:
         output_lines += f"😲 Encountered an exception: {str(e)}"
         return output_lines
+
+
+def main():
+    print(get_run_output_by_search_file_name("print_test.py"))
+
+
+if __name__ == "__main__":
+    main()
