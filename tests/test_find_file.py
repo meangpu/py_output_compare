@@ -2,6 +2,10 @@ import os
 from py_output_compare import find_files, find_first_file, find_first_file_contain_id
 
 
+def print_path():
+    print(find_first_file_contain_id("find_test.txt", "test"))
+
+
 def test_find_files_all_files():
     filename = "find_test.txt"
     base_dir = r"tests\test_lab_script"
