@@ -1,4 +1,8 @@
 def get_score_emoji(score, max_score):
+    if score < 0 or max_score < 0:
+        return "error: score less than zero!"
+    if max_score < score:
+        return "error: max_score less than score!"
     result = []
     for i in range(max_score):
         if i < score:

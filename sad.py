@@ -1,3 +1,4 @@
+from py_output_compare.find_file import find_files
 from py_output_compare import get_score_emoji, get_compare_output, InputCase
 
 print(get_score_emoji(20, 20))
@@ -10,3 +11,5 @@ test_cases = [
 ]
 
 print(get_compare_output("bad.py", "good.py", test_cases))
+
+print(find_files("find_test.txt"))

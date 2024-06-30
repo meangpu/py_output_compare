@@ -22,10 +22,10 @@ def test_get_score_emoji_all_red():
 def test_get_score_emoji_invalid_score():
     score = -1
     max_score = 5
-    assert get_score_emoji(score, max_score) == ""
+    assert get_score_emoji(score, max_score) == "error: score less than zero!"
 
 
 def test_get_score_emoji_max_score_zero():
     score = 3
     max_score = 0
-    assert get_score_emoji(score, max_score) == ""
+    assert get_score_emoji(score, max_score) == "error: max_score less than score!"
