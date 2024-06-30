@@ -1,5 +1,5 @@
 import subprocess
-from py_output_compare.test_class import Test
+from py_output_compare.user_input_case import InputCase
 from py_output_compare.find_file import find_first_file
 from py_output_compare.highlight import highlight_diff
 from py_output_compare.normalize_file_output import normalize_output
@@ -77,8 +77,8 @@ def main():
     case_input_int = [8.2, 999, 9334]
 
     test_cases = [
-        Test(case1_input),
-        Test(case_input_int),
+        InputCase(case1_input),
+        InputCase(case_input_int),
     ]
 
     print(teacher_file)
