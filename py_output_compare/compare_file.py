@@ -1,25 +1,9 @@
 import subprocess
 from test_class import Test
-from find_file import find_first_file_by_name
+from find_file import find_first_file
 from highlight_diff import highlight_diff
 from normalize_output import normalize_output
-
-
-def get_score_emoji(score, max_score):
-    result = []
-    for i in range(max_score):
-        if i < score:
-            result.append("🟢")
-        else:
-            result.append("🔴")
-
-    final_score = "".join(result)
-    return final_score
-
-
-def get_compare_to_teacher(student_file, file_name, input_data):
-    teacher_file = find_first_file_by_name(file_name)
-    return get_compare_output(student_file, teacher_file, input_data)
+from get_score import get_score_emoji
 
 
 def get_run_output(filename, input_data, timeout_setting=6):
@@ -85,8 +69,9 @@ def get_compare_output(
 
 
 def main():
-    teacher_file_name = "adder.py"
-    student_file = find_first_file_by_name("to_evaluate.py", "to_evaluate.py")
+    student_file = find_first_file("bad.py")
+    student_file_good = find_first_file("good.py")
+    teacher_file = find_first_file("teacher_file.py")
 
     case1_input = [8.2, 1.8]
     case_input_int = [8.2, 999, 9334]
@@ -96,9 +81,12 @@ def main():
         Test(case_input_int),
     ]
 
-    output = get_compare_to_teacher(student_file, teacher_file_name, test_cases)
-    print(output)
-    pass
+    print(teacher_file)
+
+    fail_student = get_compare_output(student_file, teacher_file, test_cases)
+    pass_student = get_compare_output(student_file_good, teacher_file, test_cases)
+    print(fail_student)
+    print(pass_student)
 
 
 if __name__ == "__main__":
