@@ -6,7 +6,19 @@ from py_output_compare.get_score import get_score_emoji
 from py_output_compare.find_file import find_first_file
 
 
-def get_run_output(file_path, input_data, timeout_setting=6):
+def get_run_output_by_search_file_name(filename, input_data, timeout_setting=6):
+    """_summary_
+
+    Args:
+        filename (_type_): get file name instead of path, it will try to find by itself
+        input_data (_type_):
+        timeout_setting (int, optional):. Defaults to 6.
+    """
+    path = find_first_file(filename)
+    get_run_output_by_path(path, input_data, timeout_setting)
+
+
+def get_run_output_by_path(file_path, input_data, timeout_setting=6):
     output_lines = ""
     try:
         refactor_input = "\n".join((map(str, input_data)))
@@ -36,7 +48,20 @@ def get_run_output(file_path, input_data, timeout_setting=6):
         return output_lines
 
 
-def get_compare_output(
+def get_compare_output_by__search_file_name(
+    filename_1,
+    filename_2,
+    user_input_list=[InputCase("")],
+    do_normalize_output=False,
+):
+    filepath_1 = find_first_file(filename_1)
+    filepath_2 = find_first_file(filename_2)
+    get_compare_output_by_path(
+        filepath_1, filepath_2, user_input_list, do_normalize_output
+    )
+
+
+def get_compare_output_by_path(
     file_path_1,
     file_path_2,
     user_input_list=[InputCase("")],
@@ -46,8 +71,8 @@ def get_compare_output(
     score = 0
     result.append("=" * 80)
     for user_input in user_input_list:
-        file_output_1 = get_run_output(file_path_1, user_input.case_input)
-        file_output_2 = get_run_output(file_path_2, user_input.case_input)
+        file_output_1 = get_run_output_by_path(file_path_1, user_input.case_input)
+        file_output_2 = get_run_output_by_path(file_path_2, user_input.case_input)
 
         if do_normalize_output:
             file_output_2 = normalize_output(file_output_2)
@@ -88,9 +113,11 @@ def main():
     print(student_file_good)
     print(teacher_file)
 
-    fail_student = get_compare_output(student_file, teacher_file, test_cases)
-    pass_student = get_compare_output(student_file_good, teacher_file, test_cases)
-    no_test_input = get_compare_output(student_file_good, teacher_file)
+    fail_student = get_compare_output_by_path(student_file, teacher_file, test_cases)
+    pass_student = get_compare_output_by_path(
+        student_file_good, teacher_file, test_cases
+    )
+    no_test_input = get_compare_output_by_path(student_file_good, teacher_file)
 
     print(fail_student)
     print(pass_student)

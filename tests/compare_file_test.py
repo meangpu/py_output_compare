@@ -1,7 +1,7 @@
 from py_output_compare import (
     find_first_file,
     InputCase,
-    get_compare_output,
+    get_compare_output_by_path,
 )
 
 
@@ -20,9 +20,11 @@ def main():
 
     print(teacher_file)
 
-    fail_student = get_compare_output(student_file, teacher_file, test_cases)
-    pass_student = get_compare_output(student_file_good, teacher_file, test_cases)
-    no_test_input = get_compare_output(student_file_good, teacher_file)
+    fail_student = get_compare_output_by_path(student_file, teacher_file, test_cases)
+    pass_student = get_compare_output_by_path(
+        student_file_good, teacher_file, test_cases
+    )
+    no_test_input = get_compare_output_by_path(student_file_good, teacher_file)
 
     print(fail_student)
     print(pass_student)
