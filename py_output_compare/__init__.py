@@ -1,6 +1,5 @@
 from .user_input_case import *
 
-from .get_score import *
 from .hello import *
 from .highlight import *
 from .normalize_file_output import *

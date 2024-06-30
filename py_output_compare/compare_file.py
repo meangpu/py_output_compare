@@ -1,7 +1,6 @@
 from py_output_compare.user_input_case import InputCase
 from py_output_compare.highlight import highlight_diff
 from py_output_compare.normalize_file_output import normalize_output
-from py_output_compare.get_score import get_score_emoji
 from py_output_compare.find_file import find_first_file
 from py_output_compare.get_file_run_output import get_run_output_by_path
 
@@ -12,11 +11,17 @@ def get_compare_output_by__search_file_name(
     user_input_list=[InputCase("")],
     do_normalize_output=False,
     timeout=6,
+    optional_file_name="",
 ):
     filepath_1 = find_first_file(filename_1)
     filepath_2 = find_first_file(filename_2)
     return get_compare_output_by_path(
-        filepath_1, filepath_2, user_input_list, do_normalize_output, timeout
+        filepath_1,
+        filepath_2,
+        user_input_list,
+        do_normalize_output,
+        timeout,
+        optional_file_name,
     )
 
 
@@ -28,8 +33,9 @@ def get_compare_output_by_path(
     timeout=6,
 ):
     result = []
-    score = 0
+    score = []
     result.append("=" * 80)
+
     for user_input in user_input_list:
         file_output_1 = get_run_output_by_path(
             file_path_1, user_input.case_input, timeout
@@ -44,17 +50,19 @@ def get_compare_output_by_path(
 
         if file_output_2 == file_output_1:
             result.append(f"✅: {user_input.case_name} pass!")
-            score += 1
+            score.append("🟢")
+
         else:
             result.append("~" * 80)
             result.append(f"❌: {user_input.case_name} fail!")
+            score.append("🔴")
             result.append(highlight_diff(file_output_2, file_output_1))
 
+    final_score = "".join(score)
     result.append("=" * 80)
-    result.append(f"your got: {score} scores")
-    result.append(f"{get_score_emoji(score, len(user_input_list))}")
+
+    result.append(f"you got {final_score} scores")
     result.append("=" * 80)
-    result.append("\n\n")
 
     final_compare_result = "\n".join(result)
     return final_compare_result

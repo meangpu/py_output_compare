@@ -39,6 +39,8 @@ def get_run_output_by_path(file_path, input_data, timeout_setting=6):
     except EOFError:
         output_lines += "🔚 End of file Error"
         return output_lines
+    except TypeError:
+        return "TypeError"
     except subprocess.TimeoutExpired:
         output_lines += "💀 Timed out!!!"
         return output_lines
