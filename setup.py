@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="py_output_compare",
-    version=0.6,
+    version=0.7,
     description="a script that help compare output of 2 python script, I apply this to help grading student code compare to teacher",
     long_description=description_readme,
     long_description_content_type="text/markdown",
