@@ -8,15 +8,11 @@ setup(
     description="a script that help compare output of 2 python script, I apply this to help grading student code compare to teacher",
     long_description=description_readme,
     long_description_content_type="text/markdown",
-    version=0.4,
+    version=0.5,
     package_dir={"": "py_output_compare"},
     packages=find_packages(where="py_output_compare"),
     author="meangpu",
     license="MIT",
     url="https://github.com/meangpu/py_output_compare",
-    entry_points={
-        "console_scripts": [
-            "py_output_compare-hello = py_output_compare.get_score:get_score_emoji"
-        ]
-    },
+    entry_points={"console_scripts": ["me_py = py_output_compare:hello"]},
 )
