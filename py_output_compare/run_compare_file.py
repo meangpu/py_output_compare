@@ -81,6 +81,10 @@ def get_run_output(filename, input_data, timeout_setting=6):
 
 
 def highlight_differences(expect_input, got_input):
+
+    if expect_input == got_input:
+        return "no different found"
+
     norm_expect_input = normalize_output_no_lower(expect_input)
     norm_got_input = normalize_output_no_lower(got_input)
 
