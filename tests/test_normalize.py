@@ -1,4 +1,4 @@
-from normalize_output import (
+from py_output_compare import (
     normalize_output,
     normalize_output_no_lower,
 )

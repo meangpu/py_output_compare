@@ -7,6 +7,12 @@ def normalize_output_no_lower(output):
 
 
 def main():
+    print(normalize_output(" Hello World , pro gram to work but not to feel!\n"))
+    print(
+        normalize_output_no_lower(
+            " Hello World , pro gram to work but not to feel!\n no t even sure that this is real "
+        )
+    )
     pass
 
 

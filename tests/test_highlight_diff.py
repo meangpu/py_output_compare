@@ -1,4 +1,4 @@
-from highlight_diff import highlight_diff
+from py_output_compare import highlight_diff
 
 
 def test_no_difference():

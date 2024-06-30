@@ -2,5 +2,29 @@
   "python.testing.pytestArgs": ["tests"],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
-  "python.analysis.extraPaths": ["./py_output_compare"]
+  "python.analysis.extraPaths": ["./py_output_compare"],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/*.meta": true,
+    "desktop.ini": true,
+    "**/*.vscode": true,
+    "**/*.csproj": true,
+    "**/*.sln": true,
+    "**/Logs": true,
+    "**/Packages": true,
+    "**/Resources": true,
+    "**/Sound": true,
+    "**/Art": true,
+    "**/TextMesh Pro": true,
+    "**/.pytest_cache": true,
+    ".pytest_cache": true,
+    "**/__pycache__": true,
+    "__pycache__": true
+  },
+  "explorerExclude.backup": {}
 }
