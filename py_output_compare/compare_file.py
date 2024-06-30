@@ -6,7 +6,9 @@ from py_output_compare.get_score import get_score_emoji
 from py_output_compare.find_file import find_first_file
 
 
-def get_run_output_by_search_file_name(filename, input_data, timeout_setting=6):
+def get_run_output_by_search_file_name(
+    filename, input_data=[InputCase("")], timeout_setting=6
+):
     """_summary_
 
     Args:
@@ -97,33 +99,35 @@ def get_compare_output_by_path(
 
 
 def main():
-    # student_file = find_first_file("bad.py")
-    # student_file_good = find_first_file("good.py")
-    # teacher_file = find_first_file("teacher_file.py")
+    student_file = find_first_file("bad.py")
+    student_file_good = find_first_file("good.py")
+    teacher_file = find_first_file("teacher_file.py")
 
-    # case1_input = [8.2, 1.8]
-    # case_input_int = [8.2, 999, 9334]
+    case1_input = [8.2, 1.8]
+    case_input_int = [8.2, 999, 9334]
 
-    # test_cases = [
-    #     InputCase(case1_input),
-    #     InputCase(case_input_int),
-    # ]
+    test_cases = [
+        InputCase(case1_input),
+        InputCase(case_input_int),
+    ]
 
-    # print(student_file)
-    # print(student_file_good)
-    # print(teacher_file)
+    print(student_file)
+    print(student_file_good)
+    print(teacher_file)
 
-    # fail_student = get_compare_output_by_path(student_file, teacher_file, test_cases)
-    # pass_student = get_compare_output_by_path(
-    #     student_file_good, teacher_file, test_cases
-    # )
-    # no_test_input = get_compare_output_by_path(student_file_good, teacher_file)
+    fail_student = get_compare_output_by_path(student_file, teacher_file, test_cases)
+    pass_student = get_compare_output_by_path(
+        student_file_good, teacher_file, test_cases
+    )
+    no_test_input = get_compare_output_by_path(student_file_good, teacher_file)
 
-    # print(fail_student)
-    # print(pass_student)
-    # print(no_test_input)
+    print(fail_student)
+    print(pass_student)
+    print(no_test_input)
 
+    print(get_run_output_by_search_file_name("print_test.py"))
     print(get_compare_output_by__search_file_name("good.py", "bad.py"))
+    print(get_compare_output_by__search_file_name("print_test.py", "print_test2.py"))
 
 
 if __name__ == "__main__":
