@@ -6,12 +6,12 @@ from py_output_compare.get_score import get_score_emoji
 from find_file import find_first_file
 
 
-def get_run_output(filename, input_data, timeout_setting=6):
+def get_run_output(file_path, input_data, timeout_setting=6):
     output_lines = ""
     try:
         refactor_input = "\n".join((map(str, input_data)))
         result = subprocess.run(
-            ["python", filename],
+            ["python", file_path],
             input=refactor_input,
             capture_output=True,
             text=True,
@@ -37,8 +37,8 @@ def get_run_output(filename, input_data, timeout_setting=6):
 
 
 def get_compare_output(
-    student,
-    teacher_file,
+    file_path_1,
+    file_path_2,
     user_input_list=[InputCase("")],
     do_normalize_output=False,
 ):
@@ -46,20 +46,20 @@ def get_compare_output(
     score = 0
     result.append("=" * 80)
     for user_input in user_input_list:
-        teacher_output = get_run_output(teacher_file, user_input.case_input)
-        student_output = get_run_output(student, user_input.case_input)
+        file_output_1 = get_run_output(file_path_1, user_input.case_input)
+        file_output_2 = get_run_output(file_path_2, user_input.case_input)
 
         if do_normalize_output:
-            teacher_output = normalize_output(teacher_output)
-            student_output = normalize_output(student_output)
+            file_output_2 = normalize_output(file_output_2)
+            file_output_1 = normalize_output(file_output_1)
 
-        if teacher_output == student_output:
+        if file_output_2 == file_output_1:
             result.append(f"✅: {user_input.case_name} pass!")
             score += 1
         else:
             result.append("~" * 80)
             result.append(f"❌: {user_input.case_name} fail!")
-            result.append(highlight_diff(teacher_output, student_output))
+            result.append(highlight_diff(file_output_2, file_output_1))
 
     result.append("=" * 80)
     result.append(f"your got: {score} scores")
