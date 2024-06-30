@@ -13,4 +13,5 @@ setup(
     author="meangpu",
     license="MIT",
     url="https://github.com/meangpu/py_output_compare",
+    entry_points={"console_scripts": ["mep = py_output_compare.hello:print_hello"]},
 )
