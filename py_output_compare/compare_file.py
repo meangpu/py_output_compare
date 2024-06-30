@@ -1,6 +1,5 @@
 import subprocess
 from py_output_compare.user_input_case import InputCase
-from py_output_compare.find_file import find_first_file
 from py_output_compare.highlight import highlight_diff
 from py_output_compare.normalize_file_output import normalize_output
 from py_output_compare.get_score import get_score_emoji
