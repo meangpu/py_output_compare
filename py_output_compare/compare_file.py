@@ -3,7 +3,7 @@ from py_output_compare.user_input_case import InputCase
 from py_output_compare.highlight import highlight_diff
 from py_output_compare.normalize_file_output import normalize_output
 from py_output_compare.get_score import get_score_emoji
-from find_file import find_first_file
+from py_output_compare.find_file import find_first_file
 
 
 def get_run_output(file_path, input_data, timeout_setting=6):
@@ -84,6 +84,8 @@ def main():
         InputCase(case_input_int),
     ]
 
+    print(student_file)
+    print(student_file_good)
     print(teacher_file)
 
     fail_student = get_compare_output(student_file, teacher_file, test_cases)
