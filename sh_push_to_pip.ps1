@@ -3,6 +3,4 @@
 
 
 twine check dist/*
-# twine upload dist/*
-
-# pip install py_output_compare -U
+twine upload dist/*

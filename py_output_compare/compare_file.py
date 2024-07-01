@@ -61,7 +61,7 @@ def get_compare_output_by_path(
     final_score = "".join(score)
     result.append("=" * 80)
 
-    result.append(f"you got {final_score} scores")
+    result.append(f"got {final_score} scores")
     result.append("=" * 80)
 
     final_compare_result = "\n".join(result)
