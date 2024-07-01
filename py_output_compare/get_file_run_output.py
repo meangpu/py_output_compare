@@ -17,7 +17,7 @@ def get_run_output_by_search_file_name(
     return get_run_output_by_path(path, input_data, timeout_setting)
 
 
-def get_run_output_by_path(file_path, input_data, timeout_setting=6):
+def get_run_output_by_path(file_path, input_data=[InputCase("")], timeout_setting=6):
     output_lines = ""
     try:
         refactor_input = "\n".join((map(str, input_data)))
