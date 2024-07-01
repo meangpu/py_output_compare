@@ -12,7 +12,7 @@ def highlight_diff(expect_input, got_input):
     final_word = []
 
     if norm_expect_input == norm_got_input:
-        final_word.append(" 🀄 White space error!")
+        final_word.append("🌍: space/newline error!")
 
     else:
         max_len = max(len(norm_expect_input), len(norm_got_input))
