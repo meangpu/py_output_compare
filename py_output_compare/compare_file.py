@@ -152,6 +152,7 @@ def main():
     # print(get_compare_output_by__search_file_name("good.py", "bad.py"))
     # print(get_compare_output_by__search_file_name("print_test.py", "print_test2.py"))
     print(get_score_by_search_file_name("good.py", "good.py"))
+    print(get_score_by_search_file_name("good.py", "bad.py"))
 
 
 if __name__ == "__main__":
