@@ -61,12 +61,10 @@ def highlight_diff(expect_input, got_input):
 
 
 def main():
-    # print(highlight_diff("hello", "hello"))
     print(highlight_diff("he llo", "hello"))
     print(highlight_diff("hello\n", "hello"))
     print(highlight_diff("\nhello", "hello"))
     print(highlight_diff("hell o", "h ell o"))
-    # print(highlight_diff("hedsf sdfllo", "hsdf ello"))
 
 
 if __name__ == "__main__":
