@@ -1,4 +1,4 @@
-from py_output_compare.datatype.test_case import TestCase
+from py_output_compare.test_case import TestCase
 from py_output_compare.highlight import highlight_diff
 from py_output_compare.normalize_file_output import normalize_output
 from py_output_compare.find_file import find_first_file

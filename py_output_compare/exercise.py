@@ -1,4 +1,4 @@
-from problem import Problem
+from py_output_compare.problem import Problem
 
 
 class Exercise:

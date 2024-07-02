@@ -7,3 +7,7 @@ from .compare_file import *
 from .find_file import *
 
 from .file_format_helper import *
+
+from .problem import *
+from .exercise import *
+from .test_case import *

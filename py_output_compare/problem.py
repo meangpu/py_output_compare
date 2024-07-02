@@ -1,6 +1,6 @@
 from py_output_compare.compare_file import get_compare_output_by_path, get_score_by_path
 from py_output_compare.find_file import find_files, find_first_file_contain_id
-from py_output_compare.datatype.test_case import TestCase
+from py_output_compare.test_case import TestCase
 
 
 class Problem:
