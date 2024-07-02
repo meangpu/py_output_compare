@@ -1,3 +1,6 @@
+# update version
+python update_version.py
+
 # run update local
 . .\sh_local_update.ps1
 
