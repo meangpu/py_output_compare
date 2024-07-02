@@ -36,7 +36,7 @@ def highlight_diff(expect_input, got_input):
     file_have_error_in_space = norm_expect_input == norm_got_input
 
     if file_have_error_in_space:
-        final_word.append("📃: space/newline error! ⚪:space 😶:tab 🌍:newline")
+        final_word.append("👾: space/newline error! ⚪:space 😶:tab 🌍:newline")
         norm_expect_input = replace_space_tab_newline(expect_input)
         norm_got_input = replace_space_tab_newline(got_input)
 
