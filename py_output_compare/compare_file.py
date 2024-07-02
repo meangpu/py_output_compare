@@ -1,4 +1,4 @@
-from py_output_compare.user_input_case import InputCase
+from py_output_compare.datatype.test_case import TestCase
 from py_output_compare.highlight import highlight_diff
 from py_output_compare.normalize_file_output import normalize_output
 from py_output_compare.find_file import find_first_file
@@ -8,7 +8,7 @@ from py_output_compare.get_file_run_output import get_run_output_by_path
 def get_compare_output_by_search_file_name(
     filename_1,
     filename_2,
-    user_input_list=[InputCase("")],
+    user_input_list=[TestCase("")],
     do_normalize_output=False,
     timeout=6,
 ):
@@ -26,7 +26,7 @@ def get_compare_output_by_search_file_name(
 def get_compare_output_by_path(
     file_path_1,
     file_path_2,
-    user_input_list=[InputCase("")],
+    user_input_list=[TestCase("")],
     do_normalize_output=False,
     timeout=6,
 ):
@@ -71,7 +71,7 @@ def get_compare_output_by_path(
 def get_score_by_path(
     file_path_1,
     file_path_2,
-    user_input_list=[InputCase("")],
+    user_input_list=[TestCase("")],
     do_normalize_output=False,
     timeout=6,
 ):
@@ -109,7 +109,7 @@ def get_score_by_path(
 def get_score_by_search_file_name(
     filename_1,
     filename_2,
-    user_input_list=[InputCase("")],
+    user_input_list=[TestCase("")],
     do_normalize_output=False,
     timeout=6,
 ):
@@ -133,8 +133,8 @@ def main():
     case_input_int = [8.2, 999, 9334]
 
     test_cases = [
-        InputCase(case1_input),
-        InputCase(case_input_int),
+        TestCase(case1_input),
+        TestCase(case_input_int),
     ]
 
     print(student_file)

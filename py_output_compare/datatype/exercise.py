@@ -1,12 +1,12 @@
-from py_output_compare.class_exercise import Exercise
+from problem import Problem
 
 
-class Topic:
+class Exercise:
     """topic is class that contain many exercise, use to evaluate all lab at once"""
 
-    def __init__(self, topic_name: str, exercises: list[Exercise]):
-        self.topic_name = topic_name
-        self.exercises = exercises
+    def __init__(self, exercise_name: str, problems: list[Problem]):
+        self.exercise_name = exercise_name
+        self.problems = problems
 
     def get_score_all_exercise(self) -> str:
         final_result = []

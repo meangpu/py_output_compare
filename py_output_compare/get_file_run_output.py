@@ -1,10 +1,10 @@
 import subprocess
-from py_output_compare.user_input_case import InputCase
+from py_output_compare.datatype.test_case import TestCase
 from py_output_compare.find_file import find_first_file
 
 
 def get_run_output_by_search_file_name(
-    filename, input_data=[InputCase("")], timeout_setting=6
+    filename, input_data=[TestCase("")], timeout_setting=6
 ):
     """_summary_
 
@@ -17,7 +17,7 @@ def get_run_output_by_search_file_name(
     return get_run_output_by_path(path, input_data, timeout_setting)
 
 
-def get_run_output_by_path(file_path, input_data=[InputCase("")], timeout_setting=6):
+def get_run_output_by_path(file_path, input_data=[TestCase("")], timeout_setting=6):
     output_lines = ""
     try:
         refactor_input = "\n".join((map(str, input_data)))

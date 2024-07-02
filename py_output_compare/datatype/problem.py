@@ -1,13 +1,13 @@
 from py_output_compare.compare_file import get_compare_output_by_path, get_score_by_path
-from py_output_compare.user_input_case import InputCase
 from py_output_compare.find_file import find_files, find_first_file_contain_id
+from py_output_compare.datatype.test_case import TestCase
 
 
-class Exercise:
+class Problem:
     def __init__(
         self,
         lab_name,
-        input_cases=[InputCase("")],
+        input_cases=[TestCase("")],
         do_normalize_input=False,
         timeout_setting=6,
         teacher_name="manee-2024",
