@@ -16,6 +16,12 @@ class Exercise:
             final_result.append("=" * 80)
         return "\n".join(final_result)
 
+    def print_score_all_exercise(self) -> None:
+        for problem in self.problems:
+            print(problem.problem_name)
+            problem.print_score_all()
+            print("=" * 80)
+
     def get_score_id(self, student_id: str) -> str:
         final_result = []
         for problem in self.problems:

@@ -42,6 +42,23 @@ class Problem:
             result.append(final_score_output)
         return "\n".join(result)
 
+    def print_score_all(self) -> None:
+        teacher_file_path = find_first_file_contain_id(
+            self.problem_name, self.teacher_name
+        )
+        all_student = find_files(self.problem_name)
+
+        for student_file_path in all_student:
+            score_num, score_emoji = get_score_by_path(
+                student_file_path,
+                teacher_file_path,
+                self.input_cases,
+                self.do_normalize_input,
+                self.timeout_setting,
+            )
+
+            print(f"{score_num} {score_emoji} {student_file_path}")
+
     def get_output_id(self, student_id) -> str:
         student_file_path = find_first_file_contain_id(self.problem_name, student_id)
         teacher_file_path = find_first_file_contain_id(
