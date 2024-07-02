@@ -8,10 +8,10 @@ foreach ($file in $files) {
 }
 
 # update version
-python .\update_version.py
+python update_version.py
 
 # build new file version
-python .\setup.py sdist bdist_wheel
+python setup.py sdist bdist_wheel
 
 $filePattern = "py_output_compare-*.whl"
 $targetFile = Get-ChildItem -Path $folderPath -Filter $filePattern
