@@ -39,6 +39,7 @@ def highlight_diff(expect_input, got_input):
         final_word.append("❌: space/newline error! ⚪:space 😶:tab 🌍:newline")
         norm_expect_input = replace_space_tab_newline(expect_input)
         norm_got_input = replace_space_tab_newline(got_input)
+
     diff_result = spot_char_diff(norm_expect_input, norm_got_input)
 
     # print compare normalize text
@@ -64,6 +65,7 @@ def main():
     print(highlight_diff("he llo", "hello"))
     print(highlight_diff("hello\n", "hello"))
     print(highlight_diff("\nhello", "hello"))
+    print(highlight_diff("hell o", "h ell o"))
     # print(highlight_diff("hedsf sdfllo", "hsdf ello"))
 
 
