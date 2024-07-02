@@ -13,11 +13,10 @@ def find_files(filename, base_dir="./", case_sensitive=True, find_all=True):
                 count += 1
                 yield full_path
                 if not find_all:
-                    print(f"{count} file found.")
                     return
-    print("*" * 105)
+    print("." * 80)
     print(f"{count} file{'s' if count != 1 else ''} found.")
-    print("*" * 105)
+    print("." * 80)
 
 
 def find_first_file(filename, base_dir="./", case_sensitive=True):
@@ -28,9 +27,7 @@ def find_first_file(filename, base_dir="./", case_sensitive=True):
                 not case_sensitive and file.lower() == filename_lower
             ):
                 full_path = os.path.join(root, file)
-                print("File found.")
                 return full_path
-    print("No file found.")
     return None
 
 
@@ -39,7 +36,6 @@ def find_first_file_contain_id(filename, folder_id):
     for file in file_list:
         if folder_id in file:
             return file
-    print("no file found")
     return None
 
 

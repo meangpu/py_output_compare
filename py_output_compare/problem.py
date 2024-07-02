@@ -1,5 +1,9 @@
 from py_output_compare.compare_file import get_compare_output_by_path, get_score_by_path
-from py_output_compare.find_file import find_files, find_first_file_contain_id
+from py_output_compare.find_file import (
+    find_files,
+    find_first_file_contain_id,
+    find_first_file,
+)
 from py_output_compare.test_case import TestCase
 
 
@@ -49,6 +53,21 @@ class Problem:
             self.input_cases,
             self.do_normalize_input,
             self.timeout_setting,
+        )
+        return result
+
+    def get_output_from_upload_file(self, upload_file_name="to_evaluate.py") -> str:
+        student_file_path = find_first_file(upload_file_name)
+        teacher_file_path = find_first_file_contain_id(
+            self.problem_name, self.teacher_name
+        )
+        result = get_compare_output_by_path(
+            student_file_path,
+            teacher_file_path,
+            self.input_cases,
+            self.do_normalize_input,
+            self.timeout_setting,
+            score_web_format=True,
         )
         return result
 

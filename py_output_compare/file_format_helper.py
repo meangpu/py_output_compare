@@ -10,7 +10,7 @@ def remove_prefix_from_test(filename):
     return re.sub(r"^\d+_\d+_", "", filename)
 
 
-def get_lab_name_from_test_file_name(file_path_by_name):
+def get_problem_name_from_test_name(file_path_by_name):
     """Extract the lab name from the file name and include the file extension.
     Args:
         file_path_by_name (str): File path or filename to process.
