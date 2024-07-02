@@ -1,5 +1,29 @@
-# class Topic:
-# topic is class that contain many exercise
-# def __init__(self, lab_name, input_cases=[InputCase("")]):
-#     self.lab_name = lab_name
-#     self.input_cases = input_cases
+from py_output_compare.class_exercise import Exercise
+
+
+class Topic:
+    """topic is class that contain many exercise, use to evaluate all lab at once"""
+
+    def __init__(self, topic_name: str, exercises: list[Exercise]):
+        self.topic_name = topic_name
+        self.exercises = exercises
+
+    def get_score_all_exercise(self) -> str:
+        final_result = []
+        for exercise in self.exercises:
+            final_result.append(exercise.lab_name)
+            final_result.append(exercise.get_score_all())
+            final_result.append("=" * 80)
+        return "\n".join(final_result)
+
+    def get_score_id(self, student_id: str) -> str:
+        final_result = []
+        for exercise in self.exercises:
+            final_result.append(exercise.get_score_id(student_id))
+        return "\n".join(final_result)
+
+    def get_output_id(self, student_id: str) -> str:
+        final_result = []
+        for exercise in self.exercises:
+            final_result.append(exercise.get_output_id(student_id))
+        return "\n".join(final_result)
