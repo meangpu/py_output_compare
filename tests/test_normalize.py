@@ -1,6 +1,6 @@
 from py_output_compare import (
     normalize_output,
-    normalize_output_no_lower,
+    remove_space_tab_newline,
 )
 
 
@@ -13,8 +13,8 @@ def test_normalize_output():
 
 
 def test_normalize_output_no_lower():
-    assert normalize_output_no_lower(" Hello World \n") == "HelloWorld"
-    assert normalize_output_no_lower("  \tHello\nWorld\t ") == "HelloWorld"
-    assert normalize_output_no_lower("123 \t 456\n") == "123456"
-    assert normalize_output_no_lower("") == ""
-    assert normalize_output_no_lower("  ") == ""
+    assert remove_space_tab_newline(" Hello World \n") == "HelloWorld"
+    assert remove_space_tab_newline("  \tHello\nWorld\t ") == "HelloWorld"
+    assert remove_space_tab_newline("123 \t 456\n") == "123456"
+    assert remove_space_tab_newline("") == ""
+    assert remove_space_tab_newline("  ") == ""
