@@ -28,6 +28,10 @@ class Exercise:
             final_result.append(problem.get_score_id(student_id))
         return "\n".join(final_result)
 
+    def print_score_id(self, student_id: str) -> None:
+        for problem in self.problems:
+            problem.print_score_id(student_id)
+
     def get_output_id(self, student_id: str) -> str:
         final_result = []
         for problem in self.problems:

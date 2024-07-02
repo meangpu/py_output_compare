@@ -104,3 +104,19 @@ class Problem:
 
         final_score_output = f"{score_num} {score_emoji} {student_file_path}"
         return final_score_output
+
+    def print_score_id(self, student_id) -> None:
+        teacher_file_path = find_first_file_contain_id(
+            self.problem_name, self.teacher_name
+        )
+        student_file_path = find_first_file_contain_id(self.problem_name, student_id)
+
+        score_num, score_emoji = get_score_by_path(
+            student_file_path,
+            teacher_file_path,
+            self.input_cases,
+            self.do_normalize_input,
+            self.timeout_setting,
+        )
+
+        print(f"{score_num} {score_emoji} {student_file_path}")
