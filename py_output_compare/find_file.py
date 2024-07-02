@@ -14,9 +14,6 @@ def find_files(filename, base_dir="./", case_sensitive=True, find_all=True):
                 yield full_path
                 if not find_all:
                     return
-    print("." * 80)
-    print(f"{count} file{'s' if count != 1 else ''} found.")
-    print("." * 80)
 
 
 def find_first_file(filename, base_dir="./", case_sensitive=True):
