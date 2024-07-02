@@ -7,6 +7,9 @@ foreach ($file in $files) {
     Remove-Item -Path $file.FullName
 }
 
+# update version
+python .\update_version.py
+
 # build new file version
 python .\setup.py sdist bdist_wheel
 
