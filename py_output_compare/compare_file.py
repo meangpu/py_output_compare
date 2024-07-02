@@ -32,6 +32,7 @@ def get_compare_output_by_path(
 ):
     result = []
     score = []
+    score_num = 0
     result.append("=" * 80)
 
     for user_input in user_input_list:
@@ -49,6 +50,7 @@ def get_compare_output_by_path(
         if file_output_2 == file_output_1:
             result.append(f"✅: {user_input.case_name} pass!")
             score.append("🟢")
+            score_num += 1
 
         else:
             result.append("~" * 80)
@@ -59,7 +61,7 @@ def get_compare_output_by_path(
     final_score = "".join(score)
     result.append("=" * 80)
 
-    result.append(f"got {final_score} scores")
+    result.append(f"{final_score} {score_num} {file_path_1}")
     result.append("=" * 80)
 
     final_compare_result = "\n".join(result)
