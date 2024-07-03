@@ -16,8 +16,6 @@ def process_student(args):
             student_results.append(result)
         except Exception as e:
             print(f"Error processing student problem: {e}")
-
-    # Add separator after each student's results
     student_results.append("=" * 80)
     return student_results
 
@@ -79,7 +77,6 @@ class Exercise:
             (student_path, self.problems, self.exercise_name)
             for student_path in Exercise.student_path_list
         ]
-
         with multiprocessing.Pool() as pool:
             results = pool.map(process_student, args_list)
         for student_results in results:
