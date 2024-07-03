@@ -8,6 +8,10 @@ def find_files(
     find_all: bool = True,
     skip_text: str = None,
 ):
+    """find all files that match file name
+    Args:
+        skip_text (str, optional): if have this string in file_path name or folder, it will skip that file. Defaults to None.
+    """
     filename_lower = filename.lower() if not case_sensitive else None
     skip_text_lower = (
         skip_text.lower() if skip_text and not case_sensitive else skip_text

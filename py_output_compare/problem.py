@@ -7,6 +7,7 @@ from py_output_compare.find_file import (
     find_files,
     find_first_file_contain_id,
     find_first_file,
+    count_files,
 )
 from py_output_compare.test_case import TestCase
 
@@ -32,7 +33,10 @@ class Problem:
         )
         all_student = find_files(self.problem_name)
         result = []
+        student_score_sum = 0
+        score_result = []
 
+        print(f"{self.get_submit_count()} file found!")
         for student_file_path in all_student:
             score_num, score_emoji = get_score_by_path(
                 student_file_path,
@@ -195,3 +199,6 @@ class Problem:
             self.do_normalize_input,
             self.timeout_setting,
         )
+
+    def get_submit_count(self) -> int:
+        return count_files(self.problem_name)
