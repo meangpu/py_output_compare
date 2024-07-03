@@ -3,15 +3,23 @@ from py_output_compare.problem import Problem
 import os
 
 
-def process_student_problem(args):
-    problem, student_path, exercise_name = args
-    try:
-        problem_path = os.path.join(student_path, exercise_name, problem.problem_name)
-        teacher_path = problem.get_teacher_path()
-        return problem.get_score_fast(problem_path, teacher_path)
-    except Exception as e:
-        print(f"Error processing student problem: {e}")
-        return None
+def process_student(args):
+    student_path, problems, exercise_name = args
+    student_results = []
+    for problem in problems:
+        try:
+            problem_path = os.path.join(
+                student_path, exercise_name, problem.problem_name
+            )
+            teacher_path = problem.get_teacher_path()
+            result = problem.get_score_fast(problem_path, teacher_path)
+            student_results.append(result)
+        except Exception as e:
+            print(f"Error processing student problem: {e}")
+
+    # Add separator after each student's results
+    student_results.append("=" * 80)
+    return student_results
 
 
 class Exercise:
@@ -68,19 +76,15 @@ class Exercise:
         print("Start evaluating student score...")
         final_result = []
         args_list = [
-            (problem, student_path, self.exercise_name)
+            (student_path, self.problems, self.exercise_name)
             for student_path in Exercise.student_path_list
-            for problem in self.problems
         ]
 
         with multiprocessing.Pool() as pool:
-            results = pool.map(process_student_problem, args_list)
+            results = pool.map(process_student, args_list)
+        for student_results in results:
+            final_result.extend(student_results)
 
-        for result in results:
-            if result is not None:
-                final_result.append(result)
-
-        final_result.append("=" * 80)
         return "\n".join(final_result)
 
     def get_score_id(self, student_id: str) -> str:
