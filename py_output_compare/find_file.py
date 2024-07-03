@@ -4,7 +4,7 @@ import os
 def find_files(
     filename: str,
     base_dir: str = "./",
-    case_sensitive: bool = True,
+    case_sensitive: bool = False,
     find_all: bool = True,
     skip_text: str = None,
 ):
@@ -78,7 +78,7 @@ def count_files(
     return count
 
 
-def find_first_file(filename, base_dir="./", case_sensitive=True):
+def find_first_file(filename, base_dir="./", case_sensitive=False):
     filename_lower = filename.lower() if not case_sensitive else None
     for root, _, files in os.walk(base_dir):
         for file in files:
