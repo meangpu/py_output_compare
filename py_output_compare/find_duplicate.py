@@ -1,6 +1,7 @@
 import hashlib
 import os
 import re
+from collections import defaultdict
 
 
 def normalize_content(content, to_lowercase=False):
@@ -20,15 +21,14 @@ def hash_file(filepath, do_normalize=False, to_lowercase=False):
     return hasher.hexdigest()
 
 
-def find_duplicate_files(
+def find_exact_duplicate_files(
     folder_path,
     ignore_list=["TestRunner", "nattapong"],
     include_list=[],
     do_normalize=False,
     to_lowercase=False,
 ):
-    file_hashes = {}
-    duplicates = []
+    file_hashes = defaultdict(list)
     for root, _, files in os.walk(folder_path):
         for file in files:
             if file.endswith(".py"):
@@ -40,11 +40,8 @@ def find_duplicate_files(
                 ):
                     continue
                 file_hash = hash_file(file_path, do_normalize, to_lowercase)
-                if file_hash in file_hashes:
-                    duplicates.append((file_hashes[file_hash], file_path))
-                else:
-                    file_hashes[file_hash] = file_path
-    return duplicates
+                file_hashes[file_hash].append(file_path)
+    return {hash: paths for hash, paths in file_hashes.items() if len(paths) > 1}
 
 
 def get_duplicate_text(
@@ -55,14 +52,14 @@ def get_duplicate_text(
     to_lowercase: bool = False,
 ) -> str:
     final_list = []
-    duplicates = find_duplicate_files(
+    duplicates = find_exact_duplicate_files(
         path, exclude_list, include_list or [], do_normalize, to_lowercase
     )
     if duplicates:
-        final_list.append("-" * 10)
-        for original, duplicate in duplicates:
-            final_list.append(f"{original}")
-            final_list.append(f"{duplicate}")
+        for duplicate_group in duplicates.values():
+            final_list.append("-" * 10)
+            for file_path in duplicate_group:
+                final_list.append(f"{file_path}")
             final_list.append("-" * 10)
         return "\n".join(final_list)
     else:
@@ -71,7 +68,7 @@ def get_duplicate_text(
 
 def main():
     exclude_list = ["TestRunner", "nattapong"]
-    include_list = []
+    include_list = ["adder.py"]
     folder_path = "./"
     do_normalize = True
     to_lowercase = True
@@ -79,6 +76,10 @@ def main():
         folder_path, exclude_list, include_list, do_normalize, to_lowercase
     )
     print(duplicate_word)
+    with open(
+        "TestRunner/CheatDetector/duplicate_exact.txt", "w", encoding="utf-8"
+    ) as f:
+        f.writelines(duplicate_word)
 
 
 if __name__ == "__main__":
