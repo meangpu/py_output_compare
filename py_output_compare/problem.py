@@ -254,7 +254,7 @@ class Problem:
     def print_duplicate_report(self):
         print("-" * 90)
         print(f"📄 [ {self.problem_name} ]")
-        print("-" * 90)
+        print("-" * 30)
 
         print("🌕 normalize")
         print(self.get_duplicate_file())
