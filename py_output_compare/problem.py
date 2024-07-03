@@ -46,7 +46,53 @@ class Problem:
             result.append(final_score_output)
         return "\n".join(result)
 
-    def get_output_id(self, student_id) -> str:
+    def get_score_by_path_all(self, student_path_list: list[str]) -> str:
+        teacher_file_path = find_first_file_contain_id(
+            self.problem_name, self.teacher_name
+        )
+        result = []
+        for student_file_path in student_path_list:
+            score_num, score_emoji = get_score_by_path(
+                student_file_path,
+                teacher_file_path,
+                self.input_cases,
+                self.do_normalize_input,
+                self.timeout_setting,
+            )
+
+            final_score_output = f"{score_num} {score_emoji} {student_file_path}"
+            result.append(final_score_output)
+        return "\n".join(result)
+
+    def get_score_by_path(self, student_path: str) -> str:
+        teacher_file_path = find_first_file_contain_id(
+            self.problem_name, self.teacher_name
+        )
+        score_num, score_emoji = get_score_by_path(
+            student_path,
+            teacher_file_path,
+            self.input_cases,
+            self.do_normalize_input,
+            self.timeout_setting,
+        )
+
+        final_score_output = f"{score_num} {score_emoji} {student_path}"
+        return final_score_output
+
+    def get_output_by_path(self, student_path: str) -> str:
+        teacher_file_path = find_first_file_contain_id(
+            self.problem_name, self.teacher_name
+        )
+        result = get_compare_output_by_path(
+            student_path,
+            teacher_file_path,
+            self.input_cases,
+            self.do_normalize_input,
+            self.timeout_setting,
+        )
+        return result
+
+    def get_output_id(self, student_id: str) -> str:
         student_file_path = find_first_file_contain_id(self.problem_name, student_id)
         teacher_file_path = find_first_file_contain_id(
             self.problem_name, self.teacher_name
@@ -75,7 +121,7 @@ class Problem:
         )
         return result
 
-    def get_score_id(self, student_id) -> str:
+    def get_score_id(self, student_id: str) -> str:
         teacher_file_path = find_first_file_contain_id(
             self.problem_name, self.teacher_name
         )
@@ -92,7 +138,7 @@ class Problem:
         final_score_output = f"{score_num} {score_emoji} {student_file_path}"
         return final_score_output
 
-    def print_score_id(self, student_id) -> None:
+    def print_score_id(self, student_id: str) -> None:
         teacher_file_path = find_first_file_contain_id(
             self.problem_name, self.teacher_name
         )
@@ -125,13 +171,25 @@ class Problem:
 
             print(f"{score_num} {score_emoji} {student_file_path}")
 
-    def print_output_id(self, student_id) -> None:
+    def print_output_id(self, student_id: str) -> None:
         student_file_path = find_first_file_contain_id(self.problem_name, student_id)
         teacher_file_path = find_first_file_contain_id(
             self.problem_name, self.teacher_name
         )
         print_compare_output_by_path(
             student_file_path,
+            teacher_file_path,
+            self.input_cases,
+            self.do_normalize_input,
+            self.timeout_setting,
+        )
+
+    def print_output_by_path(self, student_path: str) -> None:
+        teacher_file_path = find_first_file_contain_id(
+            self.problem_name, self.teacher_name
+        )
+        print_compare_output_by_path(
+            student_path,
             teacher_file_path,
             self.input_cases,
             self.do_normalize_input,

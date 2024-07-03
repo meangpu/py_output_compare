@@ -28,7 +28,7 @@ def find_first_file(filename, base_dir="./", case_sensitive=True):
     return None
 
 
-def find_first_file_contain_id(filename, folder_id):
+def find_first_file_contain_id(filename, folder_id: str) -> str:
     file_list = find_files(filename)
     for file in file_list:
         if folder_id in file:
