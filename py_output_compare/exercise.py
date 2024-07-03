@@ -20,6 +20,17 @@ def process_student(args):
     return student_results
 
 
+def calculate_problem_score(problem):
+    result = []
+    result.append("=" * 80)
+    result.append(problem.problem_name)
+    result.append("-" * 80)
+    result.append(problem.get_score_all())
+    result.append("=" * 80)
+    result.append("\n")
+    return "\n".join(result)
+
+
 class Exercise:
     """topic is class that contain many exercise, use to evaluate all lab at once"""
 
@@ -60,15 +71,10 @@ class Exercise:
         self.problems = problems
 
     def get_score_all_by_exercise(self) -> str:
-        final_result = []
-        for problem in self.problems:
-            final_result.append("=" * 80)
-            final_result.append(problem.problem_name)
-            final_result.append("-" * 80)
-            final_result.append(problem.get_score_all())
-            final_result.append("=" * 80)
-            final_result.append("\n")
-        return "\n".join(final_result)
+        print("Start evaluating all problems...")
+        with multiprocessing.Pool() as pool:
+            results = pool.map(calculate_problem_score, self.problems)
+        return "\n".join(results)
 
     def get_score_all_by_student_path_list(self) -> str:
         print("Start evaluating student score...")
