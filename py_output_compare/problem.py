@@ -105,7 +105,7 @@ class Problem:
     def get_score_fast(self, student_path: str, teacher_path: str) -> str:
         score_num, score_emoji = get_score_by_path(
             student_path,
-            teacher_file_path,
+            teacher_path,
             self.input_cases,
             self.do_normalize_input,
             self.timeout_setting,

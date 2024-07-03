@@ -1,4 +1,6 @@
 from py_output_compare.problem import Problem
+from io import StringIO
+import concurrent.futures
 import os
 
 
@@ -53,16 +55,39 @@ class Exercise:
         return "\n".join(final_result)
 
     def get_score_all_by_student_path_list(self) -> str:
-        """take around 20.34 second to complete all"""
-        print("start evaluate student score...")
-        final_result = []
-        for student_path in Exercise.student_path_list:
-            exercise_path = os.path.join(student_path, self.exercise_name)
-            for problem in self.problems:
-                problem_path = os.path.join(exercise_path, problem.problem_name)
-                final_result.append(problem.get_score_by_path(problem_path))
-            final_result.append("=" * 80)
+        print("start evaluating student score...")
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = []
+            for student_path in Exercise.student_path_list:
+                exercise_path = os.path.join(student_path, self.exercise_name)
+                for problem in self.problems:
+                    teacher_path = problem.get_teacher_path()
+                    problem_path = os.path.join(exercise_path, problem.problem_name)
+                    futures.append(
+                        executor.submit(
+                            self._process_student_problem,
+                            problem,
+                            problem_path,
+                            teacher_path,
+                        )
+                    )
+
+            final_result = []
+            for future in concurrent.futures.as_completed(futures):
+                result = future.result()
+                if result is not None:
+                    final_result.extend(result)
+
+        final_result.append("=" * 80)
         return "\n".join(final_result)
+
+    def _process_student_problem(self, problem, problem_path, teacher_path):
+        try:
+            score = problem.get_score_fast(problem_path, teacher_path)
+            return [score]
+        except Exception as e:
+            print(f"Error processing student problem: {e}")
+            return None
 
     def get_score_id(self, student_id: str) -> str:
         final_result = []
