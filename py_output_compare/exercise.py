@@ -141,3 +141,9 @@ class Exercise:
     def print_duplicate_report(self):
         for problem in self.problems:
             problem.print_duplicate_report()
+
+    def get_duplicate_report(self):
+        result = []
+        for problem in self.problems:
+            result.append(problem.get_duplicate_report())
+        return "\n".join(result)
