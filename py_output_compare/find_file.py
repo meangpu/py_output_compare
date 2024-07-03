@@ -1,16 +1,33 @@
 import os
 
 
-def find_files(filename, base_dir="./", case_sensitive=True, find_all=True):
-    count = 0
+def find_files(
+    filename, base_dir="./", case_sensitive=True, find_all=True, skip_text=None
+):
     filename_lower = filename.lower() if not case_sensitive else None
+    skip_text_lower = (
+        skip_text.lower() if skip_text and not case_sensitive else skip_text
+    )
+
     for root, _, files in os.walk(base_dir):
+        root_to_check = root if case_sensitive else root.lower()
+        if skip_text and (
+            (case_sensitive and skip_text in root)
+            or (not case_sensitive and skip_text_lower in root_to_check)
+        ):
+            continue
+
         for file in files:
+            file_to_check = file if case_sensitive else file.lower()
             if (case_sensitive and file == filename) or (
-                not case_sensitive and file.lower() == filename_lower
+                not case_sensitive and file_to_check == filename_lower
             ):
+                if skip_text and (
+                    (case_sensitive and skip_text in file)
+                    or (not case_sensitive and skip_text_lower in file_to_check)
+                ):
+                    continue
                 full_path = os.path.join(root, file)
-                count += 1
                 yield full_path
                 if not find_all:
                     return
