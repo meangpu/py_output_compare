@@ -32,10 +32,11 @@ class Problem:
     def get_max_score(self) -> int:
         return len(self.input_cases)
 
+    def get_teacher_path(self) -> str:
+        return find_first_file_contain_id(self.problem_name, self.teacher_name)
+
     def get_score_all(self) -> str:
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         all_student = find_files(self.problem_name)
         result = []
 
@@ -73,9 +74,7 @@ class Problem:
         return "\n".join(result)
 
     def get_score_by_path_all(self, student_path_list: list[str]) -> str:
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         result = []
         for student_file_path in student_path_list:
             score_num, score_emoji = get_score_by_path(
@@ -91,9 +90,19 @@ class Problem:
         return "\n".join(result)
 
     def get_score_by_path(self, student_path: str) -> str:
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
+        teacher_file_path = self.get_teacher_path()
+        score_num, score_emoji = get_score_by_path(
+            student_path,
+            teacher_file_path,
+            self.input_cases,
+            self.do_normalize_input,
+            self.timeout_setting,
         )
+
+        final_score_output = f"{score_num} {score_emoji} {student_path}"
+        return final_score_output
+
+    def get_score_fast(self, student_path: str, teacher_path: str) -> str:
         score_num, score_emoji = get_score_by_path(
             student_path,
             teacher_file_path,
@@ -106,9 +115,7 @@ class Problem:
         return final_score_output
 
     def get_output_by_path(self, student_path: str) -> str:
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         result = get_compare_output_by_path(
             student_path,
             teacher_file_path,
@@ -120,9 +127,7 @@ class Problem:
 
     def get_output_id(self, student_id: str) -> str:
         student_file_path = find_first_file_contain_id(self.problem_name, student_id)
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         result = get_compare_output_by_path(
             student_file_path,
             teacher_file_path,
@@ -134,9 +139,7 @@ class Problem:
 
     def get_output_from_upload_file(self, upload_file_name="to_evaluate.py") -> str:
         student_file_path = find_first_file(upload_file_name)
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         result = get_compare_output_by_path(
             student_file_path,
             teacher_file_path,
@@ -148,9 +151,7 @@ class Problem:
         return result
 
     def get_score_id(self, student_id: str) -> str:
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         student_file_path = find_first_file_contain_id(self.problem_name, student_id)
 
         score_num, score_emoji = get_score_by_path(
@@ -165,9 +166,7 @@ class Problem:
         return final_score_output
 
     def print_score_id(self, student_id: str) -> None:
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         student_file_path = find_first_file_contain_id(self.problem_name, student_id)
 
         score_num, score_emoji = get_score_by_path(
@@ -181,9 +180,7 @@ class Problem:
         print(f"{score_num} {score_emoji} {student_file_path}")
 
     def print_score_all(self) -> None:
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         all_student = find_files(self.problem_name)
 
         for student_file_path in all_student:
@@ -199,9 +196,7 @@ class Problem:
 
     def print_output_id(self, student_id: str) -> None:
         student_file_path = find_first_file_contain_id(self.problem_name, student_id)
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         print_compare_output_by_path(
             student_file_path,
             teacher_file_path,
@@ -211,9 +206,7 @@ class Problem:
         )
 
     def print_output_by_path(self, student_path: str) -> None:
-        teacher_file_path = find_first_file_contain_id(
-            self.problem_name, self.teacher_name
-        )
+        teacher_file_path = self.get_teacher_path()
         print_compare_output_by_path(
             student_path,
             teacher_file_path,
@@ -264,7 +257,7 @@ class Problem:
         result.append("")
         return "\n".join(result)
 
-    def print_duplicate_report(self)-> None:
+    def print_duplicate_report(self) -> None:
         print("-" * 90)
         print(f"📄 [ {self.problem_name} ]")
         print("-" * 30)
