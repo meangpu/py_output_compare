@@ -251,7 +251,20 @@ class Problem:
             to_lowercase=False,
         )
 
-    def print_duplicate_report(self):
+    def get_duplicate_report(self) -> str:
+        result = []
+        result.append("-" * 90)
+        result.append(f"📄 [ {self.problem_name} ]")
+        result.append("-" * 30)
+        result.append("🌕 normalize")
+        result.append(self.get_duplicate_file())
+        result.append("")
+        result.append("🔴 exact")
+        result.append(self.get_exact_duplicate())
+        result.append("")
+        return "\n".join(result)
+
+    def print_duplicate_report(self)-> None:
         print("-" * 90)
         print(f"📄 [ {self.problem_name} ]")
         print("-" * 30)
