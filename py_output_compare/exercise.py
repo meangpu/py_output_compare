@@ -106,3 +106,7 @@ class Exercise:
         for problem in self.problems:
             result.append(problem.get_exact_duplicate(folder_path, ignore_list))
         return "\n".join(result)
+
+    def print_duplicate_report(self):
+        for problem in self.problems:
+            problem.print_duplicate_report()

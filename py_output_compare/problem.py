@@ -250,3 +250,15 @@ class Problem:
             do_normalize=False,
             to_lowercase=False,
         )
+
+    def print_duplicate_report(self):
+        print("-" * 90)
+        print(f"📄 [ {self.problem_name} ]")
+        print("-" * 90)
+
+        print("🌕 normalize")
+        print(self.get_duplicate_file())
+        print()
+        print("🔴 exact")
+        print(self.get_exact_duplicate())
+        print()
