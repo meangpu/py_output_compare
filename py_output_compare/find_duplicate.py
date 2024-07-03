@@ -22,7 +22,7 @@ def hash_file(filepath, do_normalize=False, to_lowercase=False):
 
 
 def find_duplicate_files(
-    folder_path,
+    folder_path="./",
     ignore_list=["TestRunner", "nattapong"],
     include_list=[],
     do_normalize=False,
@@ -45,15 +45,15 @@ def find_duplicate_files(
 
 
 def get_duplicate_text(
-    path: str,
-    exclude_list: list[str],
+    folder_path: str = "./",
+    ignore_list: list[str] = ["TestRunner", "nattapong"],
     include_list: list[str] = None,
     do_normalize: bool = False,
     to_lowercase: bool = False,
 ) -> str:
     final_list = []
     duplicates = find_duplicate_files(
-        path, exclude_list, include_list or [], do_normalize, to_lowercase
+        folder_path, ignore_list, include_list or [], do_normalize, to_lowercase
     )
     if duplicates:
         for duplicate_group in duplicates.values():
