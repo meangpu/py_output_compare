@@ -34,7 +34,6 @@ def get_compare_output_by_path(
     result = []
     score = []
     score_num = 0
-    result.append("=" * 80)
 
     for user_input in user_input_list:
         file_output_1 = get_run_output_by_path(
@@ -60,14 +59,12 @@ def get_compare_output_by_path(
             result.append(highlight_diff(file_output_2, file_output_1))
 
     final_score = "".join(score)
-    result.append("=" * 80)
 
     if score_web_format:
         result.append(f"score: {final_score}({score_num}/{len(user_input_list)})")
     else:
         result.append(f"{final_score} {score_num} {file_path_1}")
 
-    result.append("=" * 80)
     final_compare_result = "\n".join(result)
     return final_compare_result
 
