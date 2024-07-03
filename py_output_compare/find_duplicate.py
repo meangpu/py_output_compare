@@ -60,10 +60,10 @@ def get_duplicate_text(
             final_list.append("_" * 90)
             for file_path in duplicate_group:
                 final_list.append(f"{file_path}")
-            final_list.append("¯" * 90)
+            final_list.append("_" * 90)
         return "\n".join(final_list)
     else:
-        return "No duplicate .py files found."
+        return "No"
 
 
 def main():

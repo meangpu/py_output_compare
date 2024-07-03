@@ -248,13 +248,19 @@ class Problem:
         result = []
         result.append("-" * 90)
         result.append(f"📄 [ {self.problem_name} ]")
-        result.append("-" * 30)
-        result.append("🌕 normalize")
-        result.append(self.get_duplicate_file())
-        result.append("")
-        result.append("🔴 exact")
-        result.append(self.get_exact_duplicate())
-        result.append("")
+        result.append("-" * 90)
+
+        duplicate_list = self.get_duplicate_file()
+        exact_duplicate_list = self.get_exact_duplicate()
+
+        if duplicate_list != "No":
+            result.append("🌕 normalize")
+            result.append(duplicate_list)
+            result.append("")
+        if exact_duplicate_list != "No":
+            result.append("🔴 exact")
+            result.append(exact_duplicate_list)
+            result.append("")
         return "\n".join(result)
 
     def print_duplicate_report(self) -> None:
