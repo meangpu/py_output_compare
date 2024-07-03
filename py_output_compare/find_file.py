@@ -90,11 +90,20 @@ def find_first_file(filename, base_dir="./", case_sensitive=False):
     return None
 
 
-def find_first_file_contain_id(filename, folder_id: str) -> str:
+def find_first_file_contain_id(
+    filename: str, folder_id: str, case_sensitive: bool = False
+) -> str:
     file_list = find_files(filename)
+    if not case_sensitive:
+        folder_id = folder_id.lower()
     for file in file_list:
-        if folder_id in file:
-            return file
+        if not case_sensitive:
+            file_lower = file.lower()
+            if folder_id in file_lower:
+                return file
+        else:
+            if folder_id in file:
+                return file
     return None
 
 
