@@ -12,7 +12,9 @@ class Exercise:
     def get_score_all_by_exercise(self) -> str:
         final_result = []
         for problem in self.problems:
+            final_result.append("=" * 80)
             final_result.append(problem.problem_name)
+            final_result.append("-" * 80)
             final_result.append(problem.get_score_all())
             final_result.append("=" * 80)
         return "\n".join(final_result)

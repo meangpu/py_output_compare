@@ -13,13 +13,14 @@ from py_output_compare.test_case import TestCase
 
 
 class Problem:
+
     def __init__(
         self,
-        problem_name,
-        input_cases=[TestCase("")],
-        do_normalize_input=False,
-        timeout_setting=6,
-        teacher_name="manee-2024",
+        problem_name: str,
+        input_cases: list[TestCase] = [TestCase("")],
+        do_normalize_input: bool = False,
+        timeout_setting: float = 6,
+        teacher_name: str = "manee-2024",
     ):
         self.problem_name = problem_name
         self.input_cases = input_cases
@@ -27,16 +28,22 @@ class Problem:
         self.teacher_name = teacher_name
         self.timeout_setting = timeout_setting
 
+    def get_max_score(self) -> int:
+        return len(self.input_cases)
+
     def get_score_all(self) -> str:
         teacher_file_path = find_first_file_contain_id(
             self.problem_name, self.teacher_name
         )
         all_student = find_files(self.problem_name)
         result = []
-        student_score_sum = 0
-        score_result = []
 
-        print(f"{self.get_submit_count()} file found!")
+        max_score = self.get_max_score()
+        number_of_student = 0
+        student_score_sum = 0
+
+        print(f"start evaluate {self.problem_name}...")
+
         for student_file_path in all_student:
             score_num, score_emoji = get_score_by_path(
                 student_file_path,
@@ -46,8 +53,22 @@ class Problem:
                 self.timeout_setting,
             )
 
-            final_score_output = f"{score_num} {score_emoji} {student_file_path}"
-            result.append(final_score_output)
+            number_of_student += 1
+            student_score_sum += score_num
+
+            this_student_score = f"{score_num} {score_emoji} {student_file_path}"
+            result.append(this_student_score)
+        problem_score_max = max_score * number_of_student
+
+        score_summary = (
+            f"{number_of_student} students submit file\n"
+            f"score_summary: [{student_score_sum}]-({problem_score_max})\n"
+            f"average_score: [{(student_score_sum/number_of_student):.2f}]-({max_score})"
+        )
+
+        result.append("-" * 80)
+        result.append(score_summary)
+
         return "\n".join(result)
 
     def get_score_by_path_all(self, student_path_list: list[str]) -> str:
