@@ -62,8 +62,8 @@ class Problem:
 
         score_summary = (
             f"{number_of_student} students submit file\n"
-            f"score_summary: [{student_score_sum:>3}]-({problem_score_max:>3}) [get]-(max)\n"
-            f"average_score: [{(student_score_sum/number_of_student):.2f>3}]-({max_score:>3}) [get]-(max)"
+            f"score_summary: [{student_score_sum:>4}]-({problem_score_max:>4}) [get]-(max)\n"
+            f"average_score: [{(student_score_sum/number_of_student):>4.2f}]-({max_score:>4}) [get]-(max)"
         )
 
         result.append("-" * 80)
