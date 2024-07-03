@@ -21,7 +21,7 @@ def hash_file(filepath, do_normalize=False, to_lowercase=False):
     return hasher.hexdigest()
 
 
-def find_exact_duplicate_files(
+def find_duplicate_files(
     folder_path,
     ignore_list=["TestRunner", "nattapong"],
     include_list=[],
@@ -52,7 +52,7 @@ def get_duplicate_text(
     to_lowercase: bool = False,
 ) -> str:
     final_list = []
-    duplicates = find_exact_duplicate_files(
+    duplicates = find_duplicate_files(
         path, exclude_list, include_list or [], do_normalize, to_lowercase
     )
     if duplicates:
@@ -68,7 +68,7 @@ def get_duplicate_text(
 
 def main():
     exclude_list = ["TestRunner", "nattapong"]
-    include_list = ["adder.py"]
+    include_list = []
     folder_path = "./"
     do_normalize = True
     to_lowercase = True
@@ -76,10 +76,6 @@ def main():
         folder_path, exclude_list, include_list, do_normalize, to_lowercase
     )
     print(duplicate_word)
-    with open(
-        "TestRunner/CheatDetector/duplicate_exact.txt", "w", encoding="utf-8"
-    ) as f:
-        f.writelines(duplicate_word)
 
 
 if __name__ == "__main__":
