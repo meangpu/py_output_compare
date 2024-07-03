@@ -1,0 +1,181 @@
+the function get_score_all_by_student_path_list run really slow, can you help me identify the problem
+
+class Exercise:
+    """topic is class that contain many exercise, use to evaluate all lab at once"""
+
+    student_path_list = [
+        "Student\\Achitapol-7246-interaction-labs",
+        "Student\\Anuchit-4874-interaction-labs",
+        "Student\\Anuradee-7254-interaction-labs",
+        "Student\\Chanjirawan-7157-interaction-labs",
+        "Student\\Jarinyaporn-1663-interaction_labs",
+        "Student\\Kamin-1478-interaction-labs",
+        "Student\\Kamolchanaluk-1436-interaction-labs",
+        "Student\\kewalin-7270-interaction-labs",
+        "Student\\khittimasug-7131-interaction-labs",
+        "Student\\khunakon-4769-interaction-labs",
+        "Student\\kitinan-0642-interaction-labs",
+        "Student\\kitsakorn-7115-interaction-labs",
+        "Student\\Kusuma-7149-interaction-labs",
+        "Student\\natcha-4785-interaction-lab",
+        "Student\\Natthida-4793-interaction-labs",
+        "Student2\\dahwa-7563-interaction-labs",
+        "Student2\\Pantita-1460-interaction-labs",
+        "Student2\\Paphailin-panphailin-4824-interlection-lab",
+        "Student2\\Phanpasa-7212-Interaction-labs",
+        "Student2\\phawin-1494-interaction-labs",
+        "Student2\\phitchayut-1486-interaction-labs",
+        "Student2\\Pongpanod-1452-interation-labs",
+        "Student2\\Sorrana-7238-interaction-labs",
+        "Student2\\Tanakrit-4808-interaction-labs",
+        "Student2\\wilasinee-2024-interaction-labs",
+        "Student2\\Wirakan-1525-interaction-labs",
+        "Student2\\Yadaporn-717-3-interaction-labs",
+        "Student2\\yotsawadee-4840-interaction-labs",
+        "Student2\\Yubol-Buasing-485-8-interaction-labs",
+    ]
+
+    def __init__(self, exercise_name: str, problems: list[Problem]):
+        self.exercise_name = exercise_name
+        self.problems = problems
+
+    def get_score_all_by_student_path_list(self) -> str:
+        print("Start evaluating student score...")
+        final_result = []
+
+        def process_student_problem(problem, problem_path, teacher_path):
+            try:
+                return problem.get_score_fast(problem_path, teacher_path)
+            except Exception as e:
+                print(f"Error processing student problem: {e}")
+                return None
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = [
+                executor.submit(
+                    process_student_problem,
+                    problem,
+                    os.path.join(
+                        student_path, self.exercise_name, problem.problem_name
+                    ),
+                    problem.get_teacher_path(),
+                )
+                for student_path in Exercise.student_path_list
+                for problem in self.problems
+            ]
+
+            for future in concurrent.futures.as_completed(futures):
+                result = future.result()
+                if result is not None:
+                    final_result.append(result)
+
+        final_result.append("=" * 80)
+        return "\n".join(final_result)
+
+
+
+
+
+
+
+
+
+
+class Problem:
+
+    def __init__(
+        self,
+        problem_name: str,
+        input_cases: list[TestCase] = [TestCase("")],
+        do_normalize_input: bool = False,
+        timeout_setting: float = 6,
+        teacher_name: str = "manee-2024",
+    ):
+        self.problem_name = problem_name
+        self.input_cases = input_cases
+        self.do_normalize_input = do_normalize_input
+        self.teacher_name = teacher_name
+        self.timeout_setting = timeout_setting
+
+
+    def get_score_fast(self, student_path: str, teacher_path: str) -> str:
+        score_num, score_emoji = get_score_by_path(
+            student_path,
+            teacher_path,
+            self.input_cases,
+            self.do_normalize_input,
+            self.timeout_setting,
+        )
+
+        final_score_output = f"{score_num} {score_emoji} {student_path}"
+        return final_score_output
+
+
+    def get_score_by_path(
+        file_path_1,
+        file_path_2,
+        user_input_list=[TestCase("")],
+        do_normalize_output=False,
+        timeout=6,
+    ):
+        result = []
+        score_num = 0
+        score = []
+
+        for user_input in user_input_list:
+            file_output_1 = get_run_output_by_path(
+                file_path_1, user_input.case_input, timeout
+            )
+            file_output_2 = get_run_output_by_path(
+                file_path_2, user_input.case_input, timeout
+            )
+
+            if do_normalize_output:
+                file_output_1 = normalize_output(file_output_1)
+                file_output_2 = normalize_output(file_output_2)
+
+            if file_output_2 == file_output_1:
+                result.append(f"✅: {user_input.case_name} pass!")
+                score.append("🟢")
+                score_num += 1
+
+            else:
+                result.append("~" * 80)
+                result.append(f"❌: {user_input.case_name} fail!")
+                score.append("🔴")
+                result.append(highlight_diff(file_output_2, file_output_1))
+
+        final_emoji_score = "".join(score)
+        return score_num, final_emoji_score
+
+
+    def get_run_output_by_path(file_path, input_data=[TestCase("")], timeout_setting=6):
+        output_lines = ""
+        try:
+            refactor_input = "\n".join((map(str, input_data)))
+            result = subprocess.run(
+                ["python", file_path],
+                input=refactor_input,
+                capture_output=True,
+                text=True,
+                timeout=timeout_setting,
+                encoding="utf-8",
+            )
+            output_lines = result.stdout
+            output_lines += result.stderr
+
+            if len(output_lines) == 0:
+                raise Exception("your file give no output")
+
+            return output_lines
+        except EOFError:
+            output_lines += "🔚 End of file Error"
+            return output_lines
+        except TypeError:
+            return "TypeError"
+        except subprocess.TimeoutExpired:
+            output_lines += "💀 Timed out!!!"
+            return output_lines
+        except Exception as e:
+            output_lines += f"😲 Encountered an exception: {str(e)}"
+            return output_lines

@@ -1,6 +1,17 @@
+import multiprocessing
 from py_output_compare.problem import Problem
-import concurrent.futures
 import os
+
+
+def process_student_problem(args):
+    problem, student_path, exercise_name = args
+    try:
+        problem_path = os.path.join(student_path, exercise_name, problem.problem_name)
+        teacher_path = problem.get_teacher_path()
+        return problem.get_score_fast(problem_path, teacher_path)
+    except Exception as e:
+        print(f"Error processing student problem: {e}")
+        return None
 
 
 class Exercise:
@@ -56,32 +67,18 @@ class Exercise:
     def get_score_all_by_student_path_list(self) -> str:
         print("Start evaluating student score...")
         final_result = []
+        args_list = [
+            (problem, student_path, self.exercise_name)
+            for student_path in Exercise.student_path_list
+            for problem in self.problems
+        ]
 
-        def process_student_problem(problem, problem_path, teacher_path):
-            try:
-                return problem.get_score_fast(problem_path, teacher_path)
-            except Exception as e:
-                print(f"Error processing student problem: {e}")
-                return None
+        with multiprocessing.Pool() as pool:
+            results = pool.map(process_student_problem, args_list)
 
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            futures = [
-                executor.submit(
-                    process_student_problem,
-                    problem,
-                    os.path.join(
-                        student_path, self.exercise_name, problem.problem_name
-                    ),
-                    problem.get_teacher_path(),
-                )
-                for student_path in Exercise.student_path_list
-                for problem in self.problems
-            ]
-
-            for future in concurrent.futures.as_completed(futures):
-                result = future.result()
-                if result is not None:
-                    final_result.append(result)
+        for result in results:
+            if result is not None:
+                final_result.append(result)
 
         final_result.append("=" * 80)
         return "\n".join(final_result)
