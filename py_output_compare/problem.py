@@ -10,6 +10,7 @@ from py_output_compare.find_file import (
     count_files,
 )
 from py_output_compare.test_case import TestCase
+from py_output_compare.find_duplicate import get_duplicate_text
 
 
 class Problem:
@@ -223,3 +224,29 @@ class Problem:
 
     def get_submit_count(self) -> int:
         return count_files(self.problem_name)
+
+    def get_duplicate_file(
+        self,
+        folder_path="./",
+        ignore_list=["TestRunner", "nattapong"],
+        do_normalize=True,
+        to_lowercase=True,
+    ) -> None:
+
+        return get_duplicate_text(
+            folder_path, ignore_list, [self.problem_name], do_normalize, to_lowercase
+        )
+
+    def get_exact_duplicate(
+        self,
+        folder_path="./",
+        ignore_list=["TestRunner", "nattapong"],
+    ) -> None:
+
+        return get_duplicate_text(
+            folder_path,
+            ignore_list,
+            [self.problem_name],
+            do_normalize=False,
+            to_lowercase=False,
+        )

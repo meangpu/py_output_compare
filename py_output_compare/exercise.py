@@ -80,3 +80,29 @@ class Exercise:
                 problem_path = os.path.join(exercise_path, problem.problem_name)
                 print((problem.print_output_by_path(problem_path)))
             print("=" * 80)
+
+    def get_duplicate_file(
+        self,
+        folder_path="./",
+        ignore_list=["TestRunner", "nattapong"],
+        do_normalize=True,
+        to_lowercase=True,
+    ):
+        result = []
+        for problem in self.problems:
+            result.append(
+                problem.get_duplicate_file(
+                    folder_path, ignore_list, do_normalize, to_lowercase
+                )
+            )
+        return "\n".join(result)
+
+    def get_exact_duplicate(
+        self,
+        folder_path="./",
+        ignore_list=["TestRunner", "nattapong"],
+    ):
+        result = []
+        for problem in self.problems:
+            result.append(problem.get_exact_duplicate(folder_path, ignore_list))
+        return "\n".join(result)

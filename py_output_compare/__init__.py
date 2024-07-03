@@ -11,3 +11,5 @@ from .file_format_helper import *
 from .problem import *
 from .exercise import *
 from .test_case import *
+
+from .find_duplicate import *
