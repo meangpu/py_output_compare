@@ -17,6 +17,7 @@ class Exercise:
             final_result.append("-" * 80)
             final_result.append(problem.get_score_all())
             final_result.append("=" * 80)
+            final_result.append("\n")
         return "\n".join(final_result)
 
     def get_score_all_by_student_path_list(self, student_path_list: list[str]) -> str:
