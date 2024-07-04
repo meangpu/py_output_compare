@@ -5,6 +5,7 @@ from py_output_compare.normalize_file_output import (
 
 
 def spot_char_diff(expect_input, got_input):
+    # have error when spot thai character like ชี will make it go .. so, it will not be fully align
     max_len = max(len(expect_input), len(got_input))
     result = []
 
