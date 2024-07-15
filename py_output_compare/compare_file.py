@@ -10,6 +10,7 @@ def get_compare_output_by_search_file_name(
     filename_1,
     filename_2,
     user_input_list=[TestCase("")],
+    need_to_contain_words=[],
     do_normalize_output=False,
     timeout=6,
 ):
@@ -19,6 +20,7 @@ def get_compare_output_by_search_file_name(
         filepath_1,
         filepath_2,
         user_input_list,
+        need_to_contain_words,
         do_normalize_output,
         timeout,
     )
@@ -28,6 +30,7 @@ def get_compare_output_by_path(
     file_path_1,
     file_path_2,
     user_input_list=[TestCase("")],
+    need_to_contain_words=[],
     do_normalize_output=False,
     timeout=6,
     score_web_format=False,
@@ -45,8 +48,8 @@ def get_compare_output_by_path(
         )
 
         if do_normalize_output:
-            file_output_2 = normalize_output(file_output_2)
             file_output_1 = normalize_output(file_output_1)
+            file_output_2 = normalize_output(file_output_2)
 
         if file_output_2 == file_output_1:
             result.append(f"✅: {user_input.case_name} pass!")
@@ -59,71 +62,84 @@ def get_compare_output_by_path(
             score.append("🔴")
             result.append(highlight_diff(file_output_2, file_output_1))
 
+    if len(need_to_contain_words) > 0:
+        for word in need_to_contain_words:
+            if find_word_in_file(file_path_1, word):
+                score.append("🟢")
+                score_num += 1
+                result.append(get_find_word_in_file_result(file_path_1, word))
+            else:
+                score.append("🔴")
+                result.append(get_find_word_in_file_result(file_path_1, word))
+
     final_score = "".join(score)
 
+    max_score = len(user_input_list) + len(need_to_contain_words)
+
     if score_web_format:
-        result.append(f"score: {final_score}({score_num}/{len(user_input_list)})")
+        result.append(f"score: {final_score}({score_num}/{max_score})")
     else:
         result.append(f"{final_score} {score_num} {file_path_1}")
-
     final_compare_result = "\n".join(result)
     return final_compare_result
 
 
 def get_score_by_path(
-    file_path_1,
-    file_path_2,
-    need_to_contain_words=[],
+    student_path,
+    teacher_path,
     user_input_list=[TestCase("")],
+    need_to_contain_words=[],
     do_normalize_output=False,
     timeout=6,
 ):
-    result = []
     score_num = 0
     score = []
 
     for user_input in user_input_list:
-        file_output_1 = get_run_output_by_path(
-            file_path_1, user_input.case_input, timeout
+        file_output_student = get_run_output_by_path(
+            student_path, user_input.case_input, timeout
         )
-        file_output_2 = get_run_output_by_path(
-            file_path_2, user_input.case_input, timeout
+        file_output_teacher = get_run_output_by_path(
+            teacher_path, user_input.case_input, timeout
         )
-
-    if len(need_to_contain_words) != 0:
-        pass
 
     if do_normalize_output:
-        file_output_1 = normalize_output(file_output_1)
-        file_output_2 = normalize_output(file_output_2)
+        file_output_student = normalize_output(file_output_student)
+        file_output_teacher = normalize_output(file_output_teacher)
 
-    if file_output_2 == file_output_1:
-        result.append(f"✅: {user_input.case_name} pass!")
+    if file_output_teacher == file_output_student:
         score.append("🟢")
         score_num += 1
     else:
-        result.append("~" * 80)
-        result.append(f"❌: {user_input.case_name} fail!")
         score.append("🔴")
-        result.append(highlight_diff(file_output_2, file_output_1))
+
+    if len(need_to_contain_words) > 0:
+        for word in need_to_contain_words:
+            if find_word_in_file(student_path, word):
+                score.append("🟢")
+                score_num += 1
+            else:
+                score.append("🔴")
 
     final_emoji_score = "".join(score)
     return score_num, final_emoji_score
 
 
 def get_score_by_search_file_name(
-    filename_1,
-    filename_2,
+    student_file_name,
+    teacher_file_name,
     user_input_list=[TestCase("")],
+    need_to_contain_words=[],
     do_normalize_output=False,
     timeout=6,
 ):
-    filepath_1 = find_first_file(filename_1)
-    filepath_2 = find_first_file(filename_2)
+    student_path = find_first_file(student_file_name)
+    teacher_path = find_first_file(teacher_file_name)
     return get_score_by_path(
-        filepath_1,
-        filepath_2,
+        student_path,
+        teacher_path,
         user_input_list,
+        need_to_contain_words,
         do_normalize_output,
         timeout,
     )
@@ -137,7 +153,7 @@ def find_word_in_file(file_path, word):
     return False
 
 
-def get_find_word_result(file_path, word):
+def get_find_word_in_file_result(file_path, word):
     if find_word_in_file(file_path, word):
         return f'🟢 your file contain "{word}"'
     else:

@@ -18,19 +18,20 @@ class Problem:
         self,
         problem_name: str,
         input_cases: list[TestCase] = [TestCase("")],
+        need_to_contain_words: list[str] = [],
         do_normalize_input: bool = False,
         timeout_setting: float = 6,
         teacher_name: str = "manee-2024",
-        need_to_contain_words: list[str] = [],
     ):
         self.problem_name = problem_name
         self.input_cases = input_cases
+        self.need_to_contain_words = need_to_contain_words
         self.do_normalize_input = do_normalize_input
         self.teacher_name = teacher_name
         self.timeout_setting = timeout_setting
 
     def get_max_score(self) -> int:
-        return len(self.input_cases)
+        return len(self.input_cases) + len(self.need_to_contain_words)
 
     def get_teacher_path(self) -> str:
         return find_first_file_contain_id(self.problem_name, self.teacher_name)
@@ -51,6 +52,7 @@ class Problem:
                 student_file_path,
                 teacher_file_path,
                 self.input_cases,
+                self.need_to_contain_words,
                 self.do_normalize_input,
                 self.timeout_setting,
             )
@@ -81,6 +83,7 @@ class Problem:
                 student_file_path,
                 teacher_file_path,
                 self.input_cases,
+                self.need_to_contain_words,
                 self.do_normalize_input,
                 self.timeout_setting,
             )
@@ -95,6 +98,7 @@ class Problem:
             student_path,
             teacher_file_path,
             self.input_cases,
+            self.need_to_contain_words,
             self.do_normalize_input,
             self.timeout_setting,
         )
@@ -107,6 +111,7 @@ class Problem:
             student_path,
             teacher_path,
             self.input_cases,
+            self.need_to_contain_words,
             self.do_normalize_input,
             self.timeout_setting,
         )
@@ -120,6 +125,7 @@ class Problem:
             student_path,
             teacher_file_path,
             self.input_cases,
+            self.need_to_contain_words,
             self.do_normalize_input,
             self.timeout_setting,
         )
@@ -132,6 +138,7 @@ class Problem:
             student_file_path,
             teacher_file_path,
             self.input_cases,
+            self.need_to_contain_words,
             self.do_normalize_input,
             self.timeout_setting,
         )
@@ -144,6 +151,7 @@ class Problem:
             student_file_path,
             teacher_file_path,
             self.input_cases,
+            self.need_to_contain_words,
             self.do_normalize_input,
             self.timeout_setting,
             score_web_format=True,
@@ -158,6 +166,7 @@ class Problem:
             student_file_path,
             teacher_file_path,
             self.input_cases,
+            self.need_to_contain_words,
             self.do_normalize_input,
             self.timeout_setting,
         )

@@ -20,7 +20,7 @@ def process_student(args):
     return student_results
 
 
-def calculate_problem_score(problem):
+def calculate_problem_score(problem: Problem):
     result = []
     result.append("=" * 80)
     result.append(problem.problem_name)
