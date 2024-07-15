@@ -145,12 +145,20 @@ def get_score_by_search_file_name(
     )
 
 
-def find_word_in_file(file_path, word):
-    with open(file_path, "r") as file:
-        content = file.read()
-        if re.search(word, content):
-            return True
-    return False
+def find_word_in_file(filename, word):
+    try:
+        with open(filename, "r") as file:
+            content = file.read()
+            if word.lower() in content.lower():
+                return True
+            else:
+                return False
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        return False
+    except IOError:
+        print(f"Error: Unable to read file '{filename}'.")
+        return False
 
 
 def get_find_word_in_file_result(file_path, word):
