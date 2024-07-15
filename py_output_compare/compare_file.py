@@ -1,3 +1,4 @@
+import re
 from py_output_compare.test_case import TestCase
 from py_output_compare.highlight import highlight_diff
 from py_output_compare.normalize_file_output import normalize_output
@@ -167,6 +168,14 @@ def print_compare_output_by_path(
     else:
         print(f"{final_score} {score_num} {file_path_1}")
     print("=" * 80)
+
+
+def find_word_in_file(file_path, word):
+    with open(file_path, "r") as file:
+        content = file.read()
+        if re.search(word, content):
+            return True
+    return False
 
 
 def main():
