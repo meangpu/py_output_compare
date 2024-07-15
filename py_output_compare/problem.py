@@ -1,7 +1,6 @@
 from py_output_compare.compare_file import (
     get_compare_output_by_path,
     get_score_by_path,
-    print_compare_output_by_path,
 )
 from py_output_compare.find_file import (
     find_files,
@@ -22,6 +21,7 @@ class Problem:
         do_normalize_input: bool = False,
         timeout_setting: float = 6,
         teacher_name: str = "manee-2024",
+        need_to_contain_words: list[str] = [],
     ):
         self.problem_name = problem_name
         self.input_cases = input_cases
@@ -165,56 +165,6 @@ class Problem:
         final_score_output = f"{score_num} {score_emoji} {student_file_path}"
         return final_score_output
 
-    def print_score_id(self, student_id: str) -> None:
-        teacher_file_path = self.get_teacher_path()
-        student_file_path = find_first_file_contain_id(self.problem_name, student_id)
-
-        score_num, score_emoji = get_score_by_path(
-            student_file_path,
-            teacher_file_path,
-            self.input_cases,
-            self.do_normalize_input,
-            self.timeout_setting,
-        )
-
-        print(f"{score_num} {score_emoji} {student_file_path}")
-
-    def print_score_all(self) -> None:
-        teacher_file_path = self.get_teacher_path()
-        all_student = find_files(self.problem_name)
-
-        for student_file_path in all_student:
-            score_num, score_emoji = get_score_by_path(
-                student_file_path,
-                teacher_file_path,
-                self.input_cases,
-                self.do_normalize_input,
-                self.timeout_setting,
-            )
-
-            print(f"{score_num} {score_emoji} {student_file_path}")
-
-    def print_output_id(self, student_id: str) -> None:
-        student_file_path = find_first_file_contain_id(self.problem_name, student_id)
-        teacher_file_path = self.get_teacher_path()
-        print_compare_output_by_path(
-            student_file_path,
-            teacher_file_path,
-            self.input_cases,
-            self.do_normalize_input,
-            self.timeout_setting,
-        )
-
-    def print_output_by_path(self, student_path: str) -> None:
-        teacher_file_path = self.get_teacher_path()
-        print_compare_output_by_path(
-            student_path,
-            teacher_file_path,
-            self.input_cases,
-            self.do_normalize_input,
-            self.timeout_setting,
-        )
-
     def get_submit_count(self) -> int:
         return count_files(self.problem_name)
 
@@ -262,15 +212,3 @@ class Problem:
             result.append(exact_duplicate_list)
             result.append("")
         return "\n".join(result)
-
-    def print_duplicate_report(self) -> None:
-        print("-" * 90)
-        print(f"📄 [ {self.problem_name} ]")
-        print("-" * 30)
-
-        print("🌕 normalize")
-        print(self.get_duplicate_file())
-        print()
-        print("🔴 exact")
-        print(self.get_exact_duplicate())
-        print()

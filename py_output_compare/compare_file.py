@@ -73,6 +73,7 @@ def get_compare_output_by_path(
 def get_score_by_path(
     file_path_1,
     file_path_2,
+    need_to_contain_words=[],
     user_input_list=[TestCase("")],
     do_normalize_output=False,
     timeout=6,
@@ -89,20 +90,22 @@ def get_score_by_path(
             file_path_2, user_input.case_input, timeout
         )
 
-        if do_normalize_output:
-            file_output_1 = normalize_output(file_output_1)
-            file_output_2 = normalize_output(file_output_2)
+    if len(need_to_contain_words) != 0:
+        pass
 
-        if file_output_2 == file_output_1:
-            result.append(f"✅: {user_input.case_name} pass!")
-            score.append("🟢")
-            score_num += 1
+    if do_normalize_output:
+        file_output_1 = normalize_output(file_output_1)
+        file_output_2 = normalize_output(file_output_2)
 
-        else:
-            result.append("~" * 80)
-            result.append(f"❌: {user_input.case_name} fail!")
-            score.append("🔴")
-            result.append(highlight_diff(file_output_2, file_output_1))
+    if file_output_2 == file_output_1:
+        result.append(f"✅: {user_input.case_name} pass!")
+        score.append("🟢")
+        score_num += 1
+    else:
+        result.append("~" * 80)
+        result.append(f"❌: {user_input.case_name} fail!")
+        score.append("🔴")
+        result.append(highlight_diff(file_output_2, file_output_1))
 
     final_emoji_score = "".join(score)
     return score_num, final_emoji_score
@@ -124,50 +127,6 @@ def get_score_by_search_file_name(
         do_normalize_output,
         timeout,
     )
-
-
-def print_compare_output_by_path(
-    file_path_1,
-    file_path_2,
-    user_input_list=[TestCase("")],
-    do_normalize_output=False,
-    timeout=6,
-    score_web_format=False,
-):
-    score = []
-    score_num = 0
-    print("=" * 80)
-
-    for user_input in user_input_list:
-        file_output_1 = get_run_output_by_path(
-            file_path_1, user_input.case_input, timeout
-        )
-        file_output_2 = get_run_output_by_path(
-            file_path_2, user_input.case_input, timeout
-        )
-
-        if do_normalize_output:
-            file_output_2 = normalize_output(file_output_2)
-            file_output_1 = normalize_output(file_output_1)
-
-        if file_output_2 == file_output_1:
-            print(f"✅: {user_input.case_name} pass!")
-            score.append("🟢")
-            score_num += 1
-
-        else:
-            print("~" * 80)
-            print(f"❌: {user_input.case_name} fail!")
-            score.append("🔴")
-            print(highlight_diff(file_output_2, file_output_1))
-
-    final_score = "".join(score)
-    print("=" * 80)
-    if score_web_format:
-        print(f"score: {final_score}({score_num}/{len(user_input_list)})")
-    else:
-        print(f"{final_score} {score_num} {file_path_1}")
-    print("=" * 80)
 
 
 def find_word_in_file(file_path, word):
