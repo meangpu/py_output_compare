@@ -155,7 +155,7 @@ def find_word_in_file(file_path, word):
 
 def get_find_word_in_file_result(file_path, word):
     if find_word_in_file(file_path, word):
-        return f'✅: file contain pass"{word}"'
+        return f'✅: file contain"{word}"'
     else:
         return f'❌: file not contain "{word}"'
 

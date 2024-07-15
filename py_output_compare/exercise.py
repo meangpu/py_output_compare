@@ -100,6 +100,7 @@ class Exercise:
         final_result = []
         for problem in self.problems:
             final_result.append(problem.get_output_id(student_id))
+            final_result.append("\n")
         final_result.append("=" * 80)
         final_result.append(self.get_score_id(student_id))
         final_result.append("=" * 80)
