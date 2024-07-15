@@ -1,4 +1,3 @@
-import re
 from py_output_compare.test_case import TestCase
 from py_output_compare.highlight import highlight_diff
 from py_output_compare.normalize_file_output import normalize_output
@@ -149,7 +148,7 @@ def find_word_in_file(filename, word):
     try:
         with open(filename, "r") as file:
             content = file.read()
-            if word.lower() in content.lower():
+            if word in content:
                 return True
             else:
                 return False
