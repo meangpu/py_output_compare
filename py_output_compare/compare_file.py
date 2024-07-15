@@ -178,6 +178,13 @@ def find_word_in_file(file_path, word):
     return False
 
 
+def get_find_word_result(file_path, word):
+    if find_word_in_file(file_path, word):
+        return f'🟢 your file contain "{word}"'
+    else:
+        return f'🔴 you must include "{word}" in your file!!'
+
+
 def main():
     student_file = find_first_file("bad.py")
     student_file_good = find_first_file("good.py")
