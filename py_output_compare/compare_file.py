@@ -152,6 +152,10 @@ def find_word_in_file(filename, word):
                 return True
             else:
                 return False
+    except TypeError:
+        print(f"Error: File '{filename}' is none")
+        return False
+
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found.")
         return False
