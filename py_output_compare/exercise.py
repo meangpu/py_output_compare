@@ -50,9 +50,8 @@ class Exercise:
         "Student\\Kusuma-7149-interaction-labs",
         "Student\\natcha-4785-interaction-lab",
         "Student\\Natthida-4793-interaction-labs",
-        "Student2\\dahwa-7563-interaction-labs",
-        "Student2\\Pantita-1460-interaction-labs",
         "Student2\\Paphailin-panphailin-4824-interlection-lab",
+        "Student2\\Pantita-1460-interaction-labs",
         "Student2\\Phanpasa-7212-Interaction-labs",
         "Student2\\phawin-1494-interaction-labs",
         "Student2\\phitchayut-1486-interaction-labs",
@@ -62,6 +61,7 @@ class Exercise:
         "Student2\\wilasinee-2024-interaction-labs",
         "Student2\\Wirakan-1525-interaction-labs",
         "Student2\\Yadaporn-717-3-interaction-labs",
+        "Student2\\dahwa-7563-interaction-labs",
         "Student2\\yotsawadee-4840-interaction-labs",
         "Student2\\Yubol-Buasing-485-8-interaction-labs",
     ]
