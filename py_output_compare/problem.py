@@ -174,6 +174,13 @@ class Problem:
         final_score_output = f"{score_num} {score_emoji} {student_file_path}"
         return final_score_output
 
+    def get_have_file_by_id(self, student_id: str) -> str:
+        student_file_path = find_first_file_contain_id(self.problem_name, student_id)
+        if student_file_path:
+            final_score_output = f"{self.problem_name}: {student_file_path}"
+            return final_score_output
+        return ""
+
     def get_submit_count(self) -> int:
         return count_files(self.problem_name)
 

@@ -96,6 +96,12 @@ class Exercise:
             final_result.append(problem.get_score_id(student_id))
         return "\n".join(final_result)
 
+    def get_have_file_id(self, student_id: str) -> str:
+        final_result = []
+        for problem in self.problems:
+            final_result.append(problem.get_have_file_by_id(student_id))
+        return "\n".join(final_result)
+
     def get_output_id(self, student_id: str) -> str:
         final_result = []
         for problem in self.problems:
