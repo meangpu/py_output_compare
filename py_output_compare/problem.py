@@ -177,10 +177,27 @@ class Problem:
     def get_have_file_by_id(self, student_id: str) -> str:
         student_file_path = find_first_file_contain_id(self.problem_name, student_id)
         if student_file_path:
-            final_score_output = f"{self.problem_name}: {student_file_path}"
+            final_score_output = f"{self.problem_name}:🟢 {student_file_path}"
         else:
-            final_score_output = f"{self.problem_name}: no file"
+            final_score_output = f"{self.problem_name}:🔴 no file"
         return final_score_output
+
+    def get_have_file_all(self) -> str:
+        all_student = find_files(self.problem_name)
+        result = []
+        number_of_student = 0
+
+        print(f"start evaluate {self.problem_name}...")
+
+        for student_file_path in all_student:
+            student_result = self.get_have_file_by_id(student_file_path)
+            number_of_student += 1
+            result.append(student_result)
+        score_summary = f"{number_of_student} students submit file\n"
+        result.append("-" * 80)
+        result.append(score_summary)
+
+        return "\n".join(result)
 
     def get_submit_count(self) -> int:
         return count_files(self.problem_name)

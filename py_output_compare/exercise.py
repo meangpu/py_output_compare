@@ -20,12 +20,40 @@ def process_student(args):
     return student_results
 
 
+def process_student_have_file(args):
+    student_path, problems, exercise_name = args
+    student_results = []
+    student_results.append(student_path)
+    for problem in problems:
+        try:
+            problem_path = os.path.join(
+                student_path, exercise_name, problem.problem_name
+            )
+            result = problem.get_have_file_by_id(problem_path)
+            student_results.append(result)
+        except Exception as e:
+            print(f"Error processing student problem: {e}")
+    student_results.append("=" * 80)
+    return student_results
+
+
 def calculate_problem_score(problem: Problem):
     result = []
     result.append("=" * 80)
     result.append(problem.problem_name)
     result.append("-" * 80)
     result.append(problem.get_score_all())
+    result.append("=" * 80)
+    result.append("\n")
+    return "\n".join(result)
+
+
+def calculate_student_have_file(problem: Problem):
+    result = []
+    result.append("=" * 80)
+    result.append(problem.problem_name)
+    result.append("-" * 80)
+    result.append(problem.get_have_file_all())
     result.append("=" * 80)
     result.append("\n")
     return "\n".join(result)
@@ -76,6 +104,12 @@ class Exercise:
             results = pool.map(calculate_problem_score, self.problems)
         return "\n".join(results)
 
+    def get_have_file_all_by_exercise(self) -> str:
+        print("Start evaluating all problems...")
+        with multiprocessing.Pool() as pool:
+            results = pool.map(calculate_student_have_file, self.problems)
+        return "\n".join(results)
+
     def get_score_all_by_student_path_list(self) -> str:
         print("Start evaluating student score...")
         final_result = []
@@ -85,6 +119,20 @@ class Exercise:
         ]
         with multiprocessing.Pool() as pool:
             results = pool.map(process_student, args_list)
+        for student_results in results:
+            final_result.extend(student_results)
+
+        return "\n".join(final_result)
+
+    def get_all_student_have_file_path_list(self) -> str:
+        print("Start evaluating student file...")
+        final_result = []
+        args_list = [
+            (student_path, self.problems, self.exercise_name)
+            for student_path in Exercise.student_path_list
+        ]
+        with multiprocessing.Pool() as pool:
+            results = pool.map(process_student_have_file, args_list)
         for student_results in results:
             final_result.extend(student_results)
 
